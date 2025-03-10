@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: API de Usuarios
+  description: Operaciones relacionadas con la gestión de usuarios
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Servidor local
+paths:
+  /usuarios:
+    get:
+      summary: Obtener todos los usuarios
+      description: Recupera una lista paginada de todos los usuarios registrados en el sistema
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: size
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de usuarios obtenida correctamente
+    post:
+      summary: Crear un nuevo usuario
+      description: Registra un nuevo usuario en el sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: Usuario creado exitosamente
+  /usuarios/{id}:
+    get:
+      summary: Obtener usuario por ID
+      description: Recupera los detalles de un usuario específico utilizando su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario encontrado correctamente
+    put:
+      summary: Actualizar un usuario existente
+      description: Modifica los datos de un usuario utilizando su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':
+          description: Usuario actualizado correctamente
+    delete:
+      summary: Eliminar un usuario
+      description: Desactiva un usuario del sistema utilizando su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario eliminado correctamente
+components:
+  schemas:
+    UserRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        rut:
+          type: string
+        dv:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        birthDate:
+          type: string
+          format: date
